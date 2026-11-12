@@ -1,0 +1,7 @@
+# Replace these paths with your local installation paths.
+# npm run setup generates a machine-specific example in .local/codex-config.toml.
+[mcp_servers.themoonlight]
+command = "/absolute/path/to/node"
+args = ["/absolute/path/to/themoonlight-mcp/src/server.mjs"]
+startup_timeout_sec = 20
+tool_timeout_sec = 75

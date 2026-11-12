@@ -1,0 +1,37 @@
+{
+  "name": "themoonlight-reader-mcp",
+  "version": "0.1.2",
+  "private": true,
+  "type": "module",
+  "description": "Unofficial, local browser bridge for themoonlight.io and Codex",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "setup": "node src/setup.mjs",
+    "bridge": "node src/bridge.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check extension/adapter.js && node --check extension/background.js && node --check extension/popup.js && node --check src/server.mjs && node --check src/bridge.mjs && node --check src/client.mjs && node --check src/config.mjs && node --check src/pdf.mjs && node --check src/setup.mjs && node --check src/doctor.mjs",
+    "doctor": "node src/doctor.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.4.0",
+    "pdfjs-dist": "6.5.438",
+    "ws": "^8.18.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
+    "jsdom": "^26.1.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maverick574038/themoonlight-mcp.git"
+  },
+  "homepage": "https://github.com/Maverick574038/themoonlight-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/Maverick574038/themoonlight-mcp/issues"
+  }
+}

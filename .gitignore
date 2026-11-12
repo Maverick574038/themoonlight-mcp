@@ -1,0 +1,15 @@
+node_modules/
+.local/
+extension-install/
+*.log
+.DS_Store
+
+# Local credentials and private artifacts
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+coverage/
