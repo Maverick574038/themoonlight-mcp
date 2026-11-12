@@ -1,0 +1,11 @@
+import {cp,mkdir,writeFile,chmod} from 'node:fs/promises';
+import path from 'node:path';
+import {ROOT,ensureConfig} from './config.mjs';
+const config=await ensureConfig();
+const target=path.join(ROOT,'extension-install');
+await mkdir(target,{recursive:true,mode:0o700});await chmod(target,0o700);
+await cp(path.join(ROOT,'extension'),target,{recursive:true});
+await writeFile(path.join(target,'connection.js'),`export const CONNECTION = ${JSON.stringify({port:config.port,token:config.browserToken})};\n`,{mode:0o600});
+await chmod(path.join(target,'connection.js'),0o600);
+await writeFile(path.join(ROOT,'.local','codex-config.toml'),`[mcp_servers.themoonlight]\ncommand = ${JSON.stringify(process.execPath)}\nargs = [${JSON.stringify(path.join(ROOT,'src/server.mjs'))}]\nstartup_timeout_sec = 20\ntool_timeout_sec = 75\n`);
+console.log(`本机 MCP 配置：${path.join(ROOT,'.local','codex-config.toml')}\n扩展已准备好：${target}\n在 chrome://extensions 开启开发者模式，点击「加载已解压的扩展程序」，选择这个文件夹。\n载入后，点击扩展图标中的「连接」。`);
