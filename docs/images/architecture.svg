@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="680" viewBox="0 0 1280 680" role="img"><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#8292AC" stroke-width="1.5"/></marker></defs><rect width="1280" height="680" rx="24" fill="#F3F6FC"/>
+<text x="42" y="51" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="27" font-weight="700" fill="#172B4D">连接架构：MCP 客户端、本机桥接与浏览器</text>
+<text x="42" y="85" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="18" font-weight="400" fill="#63738C">扩展、桥接与解析在本机运行；Moonlight 服务与论文来源仍需网络。</text>
+<rect x="42" y="151" width="275" height="160" rx="16" fill="#FFFFFF" stroke="#DCE4F0"/>
+<text x="64" y="192" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="25" font-weight="700" fill="#172B4D">MCP 客户端</text>
+<text x="64" y="230" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="17" font-weight="400" fill="#426CC3">Codex / 其他 stdio 客户端</text>
+<text x="64" y="275" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="16" font-weight="400" fill="#63738C">发起工具调用 · 接收结果</text>
+<rect x="435" y="151" width="337" height="160" rx="16" fill="#FFFFFF" stroke="#DCE4F0"/>
+<text x="457" y="192" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="25" font-weight="700" fill="#172B4D">Node.js 本机服务</text>
+<text x="457" y="230" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="17" font-weight="400" fill="#426CC3">MCP Server + 本机桥接</text>
+<text x="457" y="275" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="16" font-weight="400" fill="#63738C">参数检查 · 鉴权 · 请求执行锁</text>
+<rect x="890" y="151" width="348" height="160" rx="16" fill="#FFFFFF" stroke="#DCE4F0"/>
+<text x="912" y="192" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="25" font-weight="700" fill="#172B4D">Chrome 扩展</text>
+<text x="912" y="230" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="17" font-weight="400" fill="#426CC3">Moonlight · Codex 本地连接</text>
+<text x="912" y="275" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="16" font-weight="400" fill="#63738C">识别页面 · 读取内容 · 确认提问</text>
+<path d="M323,228 L427,228" stroke="#8292AC" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="336" y="211" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="15" font-weight="400" fill="#63738C">stdio</text>
+<path d="M779,228 L882,228" stroke="#8292AC" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="792" y="211" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="14" font-weight="400" fill="#63738C">WebSocket</text>
+<rect x="890" y="367" width="348" height="108" rx="16" fill="#EAF1FF" stroke="none"/>
+<text x="912" y="406" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="22" font-weight="700" fill="#172B4D">Moonlight 页面</text>
+<text x="912" y="444" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="17" font-weight="400" fill="#426CC3">当前登录状态 · 论文库 · 阅读器</text>
+<path d="M1063,318 L1063,359" stroke="#8292AC" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="42" y="367" width="730" height="164" rx="16" fill="#FFFFFF" stroke="#DCE4F0"/>
+<text x="66" y="404" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="21" font-weight="700" fill="#172B4D">原文读取的优先路径</text>
+<text x="66" y="445" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="19" font-weight="400" fill="#426CC3">受限来源的原 PDF</text>
+<path d="M280,439 L354,439" stroke="#8292AC" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="380" y="445" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="19" font-weight="400" fill="#426CC3">PDF.js 本机解析</text>
+<text x="66" y="492" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="17" font-weight="400" fill="#63738C">来源不支持时回退文本层；下载或解析失败会明确报错。</text>
+<rect x="42" y="572" width="1196" height="65" rx="16" fill="#E1EAF9" stroke="none"/>
+<text x="65" y="612" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif" font-size="19" font-weight="400" fill="#344C74">127.0.0.1 回环监听  ·  客户端 / 扩展凭证分离  ·  页面内容始终作为不可信数据</text></svg>
