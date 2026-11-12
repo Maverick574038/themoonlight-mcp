@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Moonlight · Codex 本地连接",
+  "version": "0.1.2",
+  "description": "第三方本地 MCP：读取 themoonlight.io 论文、笔记和批注，并通过明确确认发送 AI 问答。",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "scripting",
+    "alarms",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.themoonlight.io/*",
+    "https://themoonlight.io/*",
+    "http://127.0.0.1/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Moonlight MCP"
+  }
+}
