@@ -13,7 +13,7 @@ Unofficial local MCP server for reading Moonlight papers, annotations and existi
 [![Chrome](https://img.shields.io/badge/Chrome-%E2%89%A5116-4285f4)](extension/manifest.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-247254)](LICENSE)
 
-[快速开始](#快速开始) · [使用示例](#使用示例) · [工具参考](#工具参考) · [常见问题](#常见问题) · [参与贡献](#参与贡献)
+[快速开始](#快速开始) · [使用示例](#使用示例) · [配套 Skill](#moonlight-obsidian-skill) · [工具参考](#工具参考) · [常见问题](#常见问题) · [参与贡献](#参与贡献)
 
 </div>
 
@@ -154,6 +154,44 @@ Chrome 扩展：已完成鉴权连接
 ```
 
 `doctor` 会检查并尝试启动本机桥接；扩展连接后还会尝试列出标签页。它不会替你登录 Moonlight，也不会发送 AI 问题。
+
+<a id="moonlight-obsidian-skill"></a>
+
+## 配套 Skill：Moonlight × Obsidian
+
+仓库内附带 [`moonlight-obsidian`](skills/moonlight-obsidian/SKILL.md)，把论文读取、历史问答归档和后续解读串成一个可复用的流程。它会复用同一论文分支，维护“论文原文、配图、解释、问答”四个子文件夹，并保护已有手工笔记。
+
+### 安装到 Codex
+
+先完成上面的 Moonlight MCP 和 Chrome 扩展安装。完整流程还需要另行配置可访问目标库的 Obsidian MCP；其工具应支持笔记查找、读取和条件写入。本仓库不包含 Obsidian MCP 的实现，也不包含账号、连接凭证或用户笔记。
+
+在本仓库根目录执行，适用于 macOS/Linux shell：
+
+```sh
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
+cp -R -i skills/moonlight-obsidian "${CODEX_HOME:-$HOME/.codex}/skills/"
+```
+
+若已有同名 skill，先核对并保留自己的定制；复制命令会在覆盖同名文件前询问。也可手动将整个 `skills/moonlight-obsidian/` 文件夹复制到 Codex 的 skills 目录。重新加载技能或开启新聊天后，确认列表中出现 `moonlight-obsidian`。
+
+默认依赖名称为 `themoonlight` 和 `obsidian`；如果本机 MCP 使用其他名称，应按实际连接调整 `agents/openai.yaml`。这些声明不会自动安装本地服务或扩展。完整会话归档要求本项目 0.2.0 或更新的兼容版本。
+
+### 使用示例
+
+```text
+使用 $moonlight-obsidian，读取 Moonlight 当前论文第 1–3 页，解释核心方法并保留页码。
+```
+
+```text
+使用 $moonlight-obsidian，把当前论文全部历史讨论和解释追问导入我的 Obsidian。
+目标库：/absolute/path/to/your/ObsidianVault
+```
+
+```text
+使用 $moonlight-obsidian，把刚才的公式推导保存到这篇论文现有分支的“解释”文件夹。
+```
+
+技能会先核对目标论文与实际库路径；有多篇候选论文时会询问。库内已有的 `AGENTS.md` 与 `论文阅读/记忆.md` 会在写入前读取。skill 不包含固定的个人绝对路径，也不会自动下载原 PDF 和所有远程图片。向 Moonlight 发送新问题仍须在扩展弹窗逐次确认。
 
 ## 使用示例
 
@@ -463,6 +501,7 @@ themoonlight-mcp/
 │   ├── pdf.mjs                 # PDF 来源检查、缓存和按页提取
 │   ├── setup.mjs               # 本机初始化
 │   └── doctor.mjs              # 连接诊断
+├── skills/moonlight-obsidian/    # 论文阅读与 Obsidian 归档 skill
 ├── extension/                  # 可公开的 Chrome 扩展源代码
 ├── test/                       # 自动化回归测试
 ├── docs/images/                # README 原创 SVG 配图

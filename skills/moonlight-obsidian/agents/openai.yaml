@@ -1,0 +1,16 @@
+interface:
+  display_name: "Moonlight 与 Obsidian 论文助手"
+  short_description: "串联论文原文阅读、历史问答归档与后续解读，复用同一论文的四目录分支"
+  default_prompt: "使用 $moonlight-obsidian，按我的具体要求阅读 Moonlight 论文、解答疑问或归档到 Obsidian，复用已有论文分支。"
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "themoonlight"
+      description: "已配置的本地 Moonlight Reader MCP，依赖 Chrome 扩展"
+    - type: "mcp"
+      value: "obsidian"
+      description: "已配置的 Obsidian MCP，用于查找、读取和维护论文笔记"
+
+policy:
+  allow_implicit_invocation: true
