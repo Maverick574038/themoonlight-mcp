@@ -4,4 +4,4 @@
 command = "/absolute/path/to/node"
 args = ["/absolute/path/to/themoonlight-mcp/src/server.mjs"]
 startup_timeout_sec = 20
-tool_timeout_sec = 75
+tool_timeout_sec = 600

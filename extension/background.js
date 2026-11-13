@@ -1,5 +1,6 @@
 import { CONNECTION } from './connection.js';
 import { pageOperation } from './adapter.js';
+import { conversationOperation } from './conversations.js';
 
 const BASE = `http://127.0.0.1:${CONNECTION.port}`;
 const EXPIRY_MS = 600000;
@@ -98,8 +99,9 @@ async function run(tabId, command, assertActive = () => {}) {
   const active = frames.filter(result => result.result?.surface === surface);
   if (active.length !== 1) throw new Error(active.length ? '检测到多个阅读器，已在操作前停止以避免重复操作。' : '未找到对应页面。请等待 Moonlight 加载，或切换到论文库/论文阅读页。');
   assertActive();
-  const results = await chrome.scripting.executeScript({target:{tabId, frameIds:[active[0].frameId]}, func:pageOperation, args:[command], world:'ISOLATED'});
+  const results = await chrome.scripting.executeScript({target:{tabId, frameIds:[active[0].frameId]}, func:command.action.startsWith('conversation_')?conversationOperation:pageOperation, args:[{...command,paperTitle:tab.title}], world:'ISOLATED'});
   const result = results[0]?.result;
+  if(result?.operationError)throw new Error(result.operationError);
   if (!result || result.skipped) throw new Error('页面在操作前发生变化，请重新检查。');
   return {...result, title:tab.title};
 }

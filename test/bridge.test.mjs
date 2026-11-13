@@ -142,7 +142,7 @@ test('health identifies the bridge and connected extension version without requi
   const {base,headers}=await fixture(t);
   const ws=await browser(base,'extension-secret','0.1.2');
   const health=await (await fetch(base+'/health',{headers})).json();
-  assert.equal(health.version,'0.1.2');assert.equal(health.browserVersion,'0.1.2');
+  assert.equal(health.version,'0.2.0');assert.equal(health.browserVersion,'0.1.2');
   const closed=once(ws,'close');ws.close();await closed;
   const legacy=await browser(base);t.after(()=>legacy.terminate());
   assert.equal((await (await fetch(base+'/health',{headers})).json()).browserVersion,null);

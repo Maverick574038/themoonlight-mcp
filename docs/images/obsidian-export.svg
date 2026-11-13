@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+<title id="title">Moonlight 全部对话导入 Obsidian</title><desc id="desc">流程示意：读取当前论文历史讨论与解释追问，验证完整性和论文归属，再按独立会话保存至 Obsidian 四目录结构。</desc>
+<rect width="1200" height="430" rx="20" fill="#f3f6fc"/>
+<g font-family="-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Microsoft YaHei,sans-serif">
+<text x="42" y="55" font-size="28" font-weight="700" fill="#20304c">从零散的会话，到可追溯的论文笔记</text>
+<text x="42" y="88" font-size="16" fill="#5d6d89">当前论文 · 历史讨论 + 解释与追问 · 完整回答 · 本机归档</text>
+<rect x="42" y="125" width="320" height="228" rx="14" fill="white" stroke="#dbe3f0"/>
+<text x="66" y="163" font-size="22" font-weight="600" fill="#20304c">1. 逐条采集</text>
+<text x="66" y="204" font-size="18" fill="#496181">历史讨论 A → 全部消息</text>
+<text x="66" y="239" font-size="18" fill="#496181">历史讨论 B → 全部消息</text>
+<text x="66" y="274" font-size="18" fill="#496181">解释卡片 → 初始回答 + 追问</text>
+<text x="66" y="324" font-size="15" fill="#697b97">不发送问题，不触发生成</text>
+<path d="M374 239h36m-9-8 9 8-9 8" fill="none" stroke="#7290c7" stroke-width="3"/>
+<rect x="424" y="125" width="300" height="228" rx="14" fill="white" stroke="#dbe3f0"/>
+<text x="448" y="163" font-size="22" font-weight="600" fill="#20304c">2. 核对完整性</text>
+<text x="448" y="204" font-size="18" fill="#496181">论文归属 / 加载状态</text>
+<text x="448" y="239" font-size="18" fill="#496181">消息顺序 / 解释消息数</text>
+<text x="448" y="274" font-size="18" fill="#496181">记录变化 / 内容版本</text>
+<text x="448" y="324" font-size="15" fill="#697b97">读取不完整时停止导入</text>
+<path d="M738 239h36m-9-8 9 8-9 8" fill="none" stroke="#7290c7" stroke-width="3"/>
+<rect x="788" y="125" width="370" height="228" rx="14" fill="#203b68"/>
+<text x="812" y="163" font-size="22" font-weight="600" fill="white">3. 写入 Obsidian</text>
+<text x="812" y="201" font-size="17" fill="#dae5f8">论文阅读 / 论文名称 /</text>
+<text x="830" y="236" font-size="17" fill="#dae5f8">论文原文 · 配图 · 解释 · 问答</text>
+<text x="830" y="271" font-size="17" fill="#dae5f8">会话 Markdown + 导航索引</text>
+<text x="812" y="324" font-size="15" fill="#b9cbed">相同内容跳过 · 新内容保存快照</text>
+<text x="42" y="395" font-size="15" fill="#697b97">流程示意图，非产品截图。网络图片保留链接；AI 回答归档不代表内容已核验。</text>
+</g></svg>

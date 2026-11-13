@@ -34,7 +34,7 @@ export async function createBridge(config, options = {}) {
     if (req.headers.origin || req.headers['sec-fetch-site'] === 'cross-site') return json(res, 403, {error:'Browser origins forbidden'});
     if (!equal(req.headers.authorization, `Bearer ${config.clientToken}`)) return json(res, 401, {error:'Unauthorized'});
     lastUsed = now();
-    if (req.method === 'GET' && req.url === '/health') return json(res, 200, {name:'themoonlight-reader-mcp', version:'0.1.2', browserConnected:browser?.readyState === WebSocket.OPEN, browserId, browserVersion, pending:pending.size, timedOutPending:[...pending.values()].filter(job=>job.timedOut).length, diagnostics});
+    if (req.method === 'GET' && req.url === '/health') return json(res, 200, {name:'themoonlight-reader-mcp', version:'0.2.0', browserConnected:browser?.readyState === WebSocket.OPEN, browserId, browserVersion, pending:pending.size, timedOutPending:[...pending.values()].filter(job=>job.timedOut).length, diagnostics});
     if (req.method !== 'POST' || req.url !== '/command') return json(res, 404, {error:'Not found'});
     try {
       const command = validateCommand(await readBody(req));

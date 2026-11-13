@@ -19,7 +19,7 @@ test('real MCP stdio handshake, tool discovery, validation and actionable discon
  await client.connect(transport);
  const result=await client.listTools();
  for(let i=0;i<20&&!startupHealthRequests;i++)await new Promise(resolve=>setTimeout(resolve,10));
- assert.ok(startupHealthRequests>0,'MCP startup should check/start its bridge before the first tool call');assert.equal(result.tools.length,10);assert.ok(result.tools.some(t=>t.name==='moonlight_submit_question'));
+ assert.ok(startupHealthRequests>0,'MCP startup should check/start its bridge before the first tool call');assert.equal(result.tools.length,12);assert.ok(result.tools.some(t=>t.name==='moonlight_submit_question'));
  const status=await client.callTool({name:'moonlight_status',arguments:{}});assert.equal(status.isError,undefined);assert.equal(JSON.parse(status.content[0].text).browserConnected,false);
  const offline=await client.callTool({name:'moonlight_tabs',arguments:{}});assert.equal(offline.isError,true);assert.match(offline.content[0].text,/Chrome/);
  const invalid=await client.callTool({name:'moonlight_open_paper',arguments:{paperId:'not-a-uuid'}});assert.equal(invalid.isError,true);

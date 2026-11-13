@@ -1,6 +1,6 @@
 {
   "name": "themoonlight-reader-mcp",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "description": "Unofficial, local browser bridge for themoonlight.io and Codex",
@@ -12,8 +12,9 @@
     "setup": "node src/setup.mjs",
     "bridge": "node src/bridge.mjs",
     "test": "node --test test/*.test.mjs",
-    "check": "node --check extension/adapter.js && node --check extension/background.js && node --check extension/popup.js && node --check src/server.mjs && node --check src/bridge.mjs && node --check src/client.mjs && node --check src/config.mjs && node --check src/pdf.mjs && node --check src/setup.mjs && node --check src/doctor.mjs",
-    "doctor": "node src/doctor.mjs"
+    "check": "node --check extension/adapter.js && node --check extension/background.js && node --check extension/popup.js && node --check src/server.mjs && node --check src/bridge.mjs && node --check src/client.mjs && node --check src/config.mjs && node --check src/pdf.mjs && node --check src/setup.mjs && node --check src/doctor.mjs && node --check extension/conversations.js && node --check src/conversations.mjs && node --check src/obsidian.mjs && node --check src/import-obsidian.mjs",
+    "doctor": "node src/doctor.mjs",
+    "import:obsidian": "node src/import-obsidian.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.4.0",

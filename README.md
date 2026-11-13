@@ -8,7 +8,7 @@
 
 Unofficial local MCP server for reading Moonlight papers, annotations and existing AI discussions through a Chrome extension. New AI questions require explicit approval in the extension popup.
 
-[![Version](https://img.shields.io/badge/version-0.1.2-426cc3)](package.json)
+[![Version](https://img.shields.io/badge/version-0.2.0-426cc3)](package.json)
 [![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A522.13-3c873a)](package.json)
 [![Chrome](https://img.shields.io/badge/Chrome-%E2%89%A5116-4285f4)](extension/manifest.json)
 [![License: MIT](https://img.shields.io/badge/license-MIT-247254)](LICENSE)
@@ -45,7 +45,7 @@ Unofficial local MCP server for reading Moonlight papers, annotations and existi
 | 阅读记录 | 笔记、高亮、评论、已有解释 | 受当前页面和侧栏可见内容限制 |
 | 已有 AI 内容 | 摘要、解释、当前讨论 | 明确标为 AI 生成，不能当作原文 |
 | 新 AI 提问 | 准备 → 弹窗确认 → 提交一次 | 可能消耗 Moonlight 额度 |
-| 原生选区解释、布局翻译、译文导出 | 尚未实现 | 可通过问答请求文本解释或翻译 |
+| 创建原生选区解释、布局翻译、译文导出 | 尚未实现 | 已保存的解释及追问可通过会话归档工具读取 |
 
 ## 工作原理
 
@@ -126,7 +126,7 @@ codex mcp add themoonlight -- "$(command -v node)" "$PWD/src/server.mjs"
 command = "/absolute/path/to/node"
 args = ["/absolute/path/to/themoonlight-mcp/src/server.mjs"]
 startup_timeout_sec = 20
-tool_timeout_sec = 75
+tool_timeout_sec = 600
 ```
 
 将路径替换为本机真实值。`npm run setup` 生成的 `.local/codex-config.toml` 已包含本机路径，可作为填写依据。Windows 使用实际的 `node.exe` 和项目绝对路径；上面的 shell 注册命令不能直接原样套用。
@@ -148,7 +148,7 @@ npm run doctor
 
 ```text
 本机 MCP：正常（127.0.0.1:47831）
-本机服务版本：0.1.2；项目版本：0.1.2
+本机服务版本：0.2.0；项目版本：0.2.0
 Chrome 扩展：已完成鉴权连接
 可用 Moonlight 标签页：1
 ```
@@ -236,9 +236,56 @@ Chrome 扩展：已完成鉴权连接
 
 提交状态不确定时，先核查页面和现有对话。不要为了重试而立即创建一个相同的新问题。
 
+## 把全部对话导入 Obsidian
+
+![完整对话归档流程示意图](docs/images/obsidian-export.svg)
+
+`moonlight_read_ai` 适合快速查看当前讨论。需要归档时，使用新增的 `moonlight_import_obsidian`：它会打开**当前论文的每条历史讨论**，再逐条打开“解释”卡片，把初始解释、你的问题和 AI 回答一起采集。它不会发送问题或触发新的 AI 生成。
+
+可以直接对 MCP 客户端说：
+
+> 把当前 Moonlight 论文的全部历史讨论和解释追问导入我的 Obsidian，保留完整回答。
+
+工具调用示例（tabId 请用 `moonlight_tabs` 的实际结果）：
+
+```json
+{"tabId": 123, "vaultPath": "/absolute/path/to/your/ObsidianVault"}
+```
+
+默认库路径为 `~/Documents/Obsidian Knowledge`，也可通过 MCP 进程环境变量 `MOONLIGHT_OBSIDIAN_VAULT` 指定。目标必须是已存在且含 `.obsidian/` 的 Obsidian 库。
+
+归档结构：
+
+```text
+论文阅读/
+└── 论文名称/                    # 通过 paperId 或原文入口链接复用已有分支
+    ├── 论文原文/
+    ├── 配图/
+    ├── 解释/
+    ├── .moonlight-paper.json     # 当前论文的来源标识
+    └── 问答/
+        ├── Moonlight对话索引-<内容摘要>.md
+        ├── Moonlight-讨论-<会话标识>-<内容摘要>.md
+        └── Moonlight-解释-<会话标识>-<内容摘要>.md
+```
+
+每个会话独立保存，按消息顺序标注“用户”和“Moonlight AI”，保留 Markdown 标题、列表、表格、代码及页面提供的 LaTeX。解释记录还包含原文选区、页码和来源链接。图片保留原始网络地址，需要网络才能显示。
+
+重复导入相同内容会跳过；增加追问后生成新的内容快照及索引，旧版本继续保留。文件名中的摘要用于识别内容版本。如果你手工改过一个同名快照，工具会报冲突并保留修改。已有的 `Moonlight已有问答.md` 等手工笔记不会被覆盖。
+
+**范围和完整性：**“全部”指当前论文界面可访问的历史讨论和解释消息，单次最多 300 个会话。它不会自动遍历账号中的其他论文。采集时会切换侧栏及讨论，请等待完成后再操作该论文。历史菜单加载未完成、解释搜索或类型筛选隐藏了记录、存在同名讨论、页面切换、检测到虚拟滚动丢失消息或正在生成时，工具会停止；完成采集前不会写入笔记。页面未公开的、已删除的或网站未提供的记录无法恢复。
+
+若客户端超时较短，请将工具超时设为 600 秒，重新加载 MCP；也可以在本机命令行导入：
+
+```sh
+npm run import:obsidian -- 123 "/absolute/path/to/your/ObsidianVault"
+```
+
+只想读取结构化会话而暂不归档，可调用 `moonlight_conversations`。两项工具均把网页内容当作不可信数据，不会执行对话中的指令。归档文件直接保存在本机，不能提交到本项目的公开仓库。
+
 ## 工具参考
 
-当前提供 **10 个工具**。下表为参数摘要，完整校验见 [src/server.mjs](src/server.mjs) 和 [src/config.mjs](src/config.mjs)。
+当前提供 **12 个工具**。下表为参数摘要，完整校验见 [src/server.mjs](src/server.mjs) 和 [src/config.mjs](src/config.mjs)。
 
 | 工具 | 参数 | 返回内容 / 作用 |
 | --- | --- | --- |
@@ -249,6 +296,8 @@ Chrome 扩展：已完成鉴权连接
 | `moonlight_paper` | `tabId` | 论文标识、总页数、已渲染页码、原 PDF 来源等 |
 | `moonlight_pages` | `tabId`、`startPage`、`endPage` | 按页文字、提取方式、页码引用和完整性状态 |
 | `moonlight_annotations` | `tabId`、`kind` | 对应侧栏中的笔记、高亮、评论或已有解释 |
+| `moonlight_conversations` | `tabId` | 完整采集当前论文历史讨论、解释回答与追问，逐条返回用户/AI 消息 |
+| `moonlight_import_obsidian` | `tabId`；可选 `vaultPath` | 完整采集后导入本机 Obsidian，返回索引、文件路径与新建/跳过数量 |
 | `moonlight_read_ai` | `tabId` | 当前可读取的 Moonlight AI 摘要、解释与讨论 |
 | `moonlight_prepare_question` | `tabId`、`question` | 创建待确认请求，返回 `requestId` |
 | `moonlight_submit_question` | `tabId`、`requestId` | 尝试提交已确认的准确问题，返回提交状态 |
@@ -400,7 +449,7 @@ Codex 加载 MCP 或调用工具时也会尝试启动桥接。服务启动后，
 
 自动化测试使用模拟页面、临时配置和本机随机端口，不需要真实 Moonlight 登录，也不会发送真实 AI 问题。
 
-最近一次本机验证（2026-11-12）：**62 项测试通过，0 失败**。测试包含页面读取、草稿保护、弹窗确认、去重、断线恢复、中文传输、参数与配置检查、PDF 缓存和取消，以及官方客户端的真实 stdio 握手。完整范围与真实界面验证边界见 [VALIDATION.md](VALIDATION.md)。仓库附带 Node.js 22 / 24 / 26 的 CI 配置；本机测试结果不代表这些远程任务已经运行成功。
+最近一次本机验证（2026-11-13）：**75 项测试通过，0 失败**。测试包含完整对话分步采集、Obsidian 分支复用、快照去重、手工笔记保护、页面读取、草稿保护、弹窗确认、去重、断线恢复、中文传输、参数与配置检查、PDF 缓存和取消，以及官方客户端的真实 stdio 握手。完整范围与真实界面验证边界见 [VALIDATION.md](VALIDATION.md)。仓库附带 Node.js 22 / 24 / 26 的 CI 配置；本机测试结果不代表这些远程任务已经运行成功。
 
 ### 目录结构
 
@@ -429,9 +478,11 @@ themoonlight-mcp/
 
 ### 版本说明
 
+0.2.0 新增完整会话采集与 Obsidian 导入，覆盖当前论文历史讨论、解释和追问；增加异步列表等待、论文归属校验、内容快照去重和原笔记保护。
+
 0.1.2 修复了异常消息导致桥接退出、中文分块传输损坏、超时后操作重叠、确认后内容变化仍可能发送、论文库翻页漏读，以及 PDF 重复下载与取消处理等问题。
 
-后续改进方向包括：更多真实非空笔记与批注样例、页面变化适配、更多平台验证，以及对原生选区解释和布局翻译的单独适配。这些是待探索方向，不代表当前已经实现。
+后续改进方向包括：更多真实非空笔记与批注样例、页面变化适配、更多平台验证，以及对新建选区解释和布局翻译的单独适配。这些是待探索方向，不代表当前已经实现。
 
 ## 停用与移除
 

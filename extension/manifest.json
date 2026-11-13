@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Moonlight · Codex 本地连接",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "第三方本地 MCP：读取 themoonlight.io 论文、笔记和批注，并通过明确确认发送 AI 问答。",
   "minimum_chrome_version": "116",
   "permissions": [

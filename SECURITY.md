@@ -1,6 +1,6 @@
 # 安全说明
 
-当前维护版本为 0.1.2。此 MCP 在本机运行，通过 Chrome 扩展访问已登录的 Moonlight 页面。
+当前维护版本为 0.2.0。此 MCP 在本机运行，通过 Chrome 扩展访问已登录的 Moonlight 页面。
 
 不要在公开 Issue、日志、截图或 Pull Request 中包含 `.local/bridge.json`、`extension-install/connection.js`、连接凭证、Cookie 或个人阅读内容。如果发现漏洞，请优先使用仓库的 Security → Report a vulnerability 功能（若可用），或通过维护者公开提供的非公开渠道联系；不要公开可利用的凭证或个人数据。
 

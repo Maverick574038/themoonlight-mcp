@@ -32,7 +32,7 @@ function worker(options={}){
   runtime:{id:'a'.repeat(32),getURL:path=>`chrome-extension://${'a'.repeat(32)}/${path||''}`,getManifest:()=>({version:'0.1.2'}),onMessage:{addListener:fn=>{listener=fn;}}},
   alarms:{onAlarm:{addListener:()=>{}},create:async()=>{}}
  };
- const context=vm.createContext({chrome,CONNECTION:{port:47831,token:'test'},pageOperation:()=>{},crypto:globalThis.crypto,URL,setTimeout:mockSetTimeout,clearTimeout,setInterval:mockSetInterval,clearInterval,WebSocket:FakeSocket});
+ const context=vm.createContext({chrome,CONNECTION:{port:47831,token:'test'},pageOperation:()=>{},conversationOperation:()=>{},crypto:globalThis.crypto,URL,setTimeout:mockSetTimeout,clearTimeout,setInterval:mockSetInterval,clearInterval,WebSocket:FakeSocket});
  vm.runInContext(source+'\nglobalThis.api={execute,stages,initialized};',context);
  return {api:context.api,messages,storage,sockets,async popup(message,sender={id:chrome.runtime.id,url:chrome.runtime.getURL('popup.html')}){return new Promise(resolve=>{if(!listener(message,sender,resolve))resolve(undefined);});},close(){for(const socket of sockets)socket.close();for(const timer of timers){clearTimeout(timer);clearInterval(timer);}},get sends(){return sends;},set multiple(value){multiple=value;}};
 }
@@ -147,4 +147,10 @@ test('nonstandard website ports are rejected before injecting a script',async()=
  const w=worker({tabUrl:'https://www.themoonlight.io:444/paper/test'});
  await assert.rejects(()=>w.api.execute({action:'paper',tabId:1}),/只允许访问/);
  assert.equal(w.messages.length,0);
+});
+
+
+test('conversation reads retain paper ownership before injection',async()=>{
+ const w=worker();await w.api.execute({action:'conversation_read',tabId:1,expectedPaperId:'79ad721a-10d1-4767-a6cf-dc5ded2de5d1',entry:{kind:'explanation',id:'22222222-2222-4222-8222-222222222222',title:'Title'}});
+assert.equal(w.messages.at(-1).paperTitle,'Test paper');
 });

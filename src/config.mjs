@@ -36,7 +36,7 @@ export async function ensureConfig(configPath = CONFIG_PATH) {
   return config;
 }
 export function bridgeUrl(config) { return `http://127.0.0.1:${config.port}`; }
-export const ACTIONS = new Set(['tabs', 'library', 'open_paper', 'paper', 'pages', 'annotations', 'ai_read', 'ai_prepare', 'ai_submit']);
+export const ACTIONS = new Set(['tabs', 'library', 'open_paper', 'paper', 'pages', 'annotations', 'ai_read', 'ai_prepare', 'ai_submit', 'conversation_list', 'conversation_read']);
 export function validateCommand(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value) || !ACTIONS.has(value.action)) throw new Error('Unknown action');
   if (value.action !== 'tabs' && value.action !== 'open_paper' && (!Number.isSafeInteger(value.tabId) || value.tabId < 0)) throw new Error('A nonnegative tabId is required');
@@ -46,5 +46,10 @@ export function validateCommand(value) {
   if (value.action === 'annotations' && !['notes', 'highlights', 'comments', 'explanations'].includes(value.kind)) throw new Error('Invalid annotation kind');
   if (value.action === 'ai_prepare' && (typeof value.question !== 'string' || !value.question.trim() || value.question.length > 12000)) throw new Error('Question must contain 1–12000 characters');
   if (value.action === 'ai_submit' && (typeof value.requestId !== 'string' || !/^[a-f0-9]{32}$/.test(value.requestId))) throw new Error('Invalid requestId');
+  if (value.action.startsWith('conversation_')) {
+    if(typeof value.expectedPaperId!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value.expectedPaperId))throw new Error('Expected paper ID is required');
+    if(typeof value.operationId!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value.operationId))throw new Error('Conversation operation ID is required');
+    if(value.action==='conversation_read'&&(!value.entry||!['discussion','explanation'].includes(value.entry.kind)||typeof value.entry.title!=='string'||value.entry.title.length>2000||value.entry.kind==='explanation'&&!/^[a-f0-9-]{36}$/i.test(value.entry.id||'')))throw new Error('Invalid conversation descriptor');
+  }
   return value;
 }
