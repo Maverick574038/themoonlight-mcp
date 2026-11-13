@@ -19,6 +19,8 @@ Unofficial local MCP server for reading Moonlight papers, annotations and existi
 
 > 第三方开源项目，面向 [themoonlight.io](https://www.themoonlight.io/) 论文阅读器，与 Moonlight 官方无隶属关系。无需 OpenAI API Key；使用 Chrome 中已有的 Moonlight 登录状态。客户端本身的模型配置及费用由所选 MCP 客户端决定。
 
+> **已打包 Obsidian × 智能体联动 Skill：** 本仓库附带可直接安装的 [`moonlight-obsidian`](skills/moonlight-obsidian/SKILL.md)，可由 Codex 等支持 Skill 与 MCP 的智能体调用，联动 Moonlight 与 Obsidian，完成论文阅读、历史讨论及解释追问归档、后续笔记整理与续写。[查看安装与使用说明](#moonlight-obsidian-skill)。
+
 ## 它适合做什么
 
 阅读论文时，原文、个人笔记、批注和 AI 讨论往往散落在不同面板中。本项目让 MCP 客户端通过工具获取这些内容，再继续整理、比较或解释。
@@ -44,6 +46,7 @@ Unofficial local MCP server for reading Moonlight papers, annotations and existi
 | 原文读取 | 原 PDF 优先，每次 1–10 页 | 不支持 OCR；公式、图片和双栏需对照 PDF |
 | 阅读记录 | 笔记、高亮、评论、已有解释 | 受当前页面和侧栏可见内容限制 |
 | 已有 AI 内容 | 摘要、解释、当前讨论 | 明确标为 AI 生成，不能当作原文 |
+| Obsidian × 智能体联动 Skill | 仓库已打包 `moonlight-obsidian` | 安装 skill 并连接两个 MCP 后调用，见[安装说明](#moonlight-obsidian-skill) |
 | 新 AI 提问 | 准备 → 弹窗确认 → 提交一次 | 可能消耗 Moonlight 额度 |
 | 创建原生选区解释、布局翻译、译文导出 | 尚未实现 | 已保存的解释及追问可通过会话归档工具读取 |
 
@@ -159,7 +162,7 @@ Chrome 扩展：已完成鉴权连接
 
 ## 配套 Skill：Moonlight × Obsidian
 
-仓库内附带 [`moonlight-obsidian`](skills/moonlight-obsidian/SKILL.md)，把论文读取、历史问答归档和后续解读串成一个可复用的流程。它会复用同一论文分支，维护“论文原文、配图、解释、问答”四个子文件夹，并保护已有手工笔记。
+本仓库已打包可与 **Obsidian 和 AI 智能体联动** 的 [`moonlight-obsidian` Skill](skills/moonlight-obsidian/SKILL.md)。安装到 Codex 等兼容智能体并连接 Moonlight、Obsidian 两个 MCP 后，即可通过自然语言串联论文读取、历史问答归档和后续解读。它会复用同一论文分支，维护“论文原文、配图、解释、问答”四个子文件夹，并保护已有手工笔记。
 
 ### 安装到 Codex
 
